@@ -106,44 +106,47 @@ let weather = {
     displayForecast: function (data) {
         const forecastEl = document.querySelector(".forecast");
         forecastEl.innerHTML = ""; // Очищаем предыдущий прогноз
-
+    
         const today = new Date();
-        const currentDay = today.toLocaleDateString("kk-KZ", { weekday: 'long', timeZone: 'UTC' });
-
+        const currentDay = today.toLocaleDateString("kk-KZ", { weekday: 'long', timeZone: 'Asia/Almaty' });
+        console.log(today)
+    
         const days = {};
-
+    
         // Группируем прогноз по дням
         data.list.forEach((item) => {
             const date = new Date(item.dt_txt);
-            const day = date.toLocaleDateString("kk-KZ", { weekday: 'long', timeZone: 'UTC' });
+            const day = date.toLocaleDateString("kk-KZ", { weekday: 'long', timeZone: 'Asia/Almaty' });
             
             // Преобразуем день недели
             const translatedDay = this.dayTranslations[day] || day;
-
+    
             if (translatedDay !== currentDay && !days[translatedDay]) {
                 days[translatedDay] = item; // Используем первую запись для каждого дня
             }
         });
-
+    
         // Отображаем прогноз на следующие 6 дней, исключая сегодня
-        const dayKeys = Object.keys(days).slice(0, 6);
+        const dayKeys = Object.keys(days).slice(1, 7);
+        console.log(`Daykeys: ${dayKeys}`)
         dayKeys.forEach((day) => {
             const forecastData = days[day];
             const { icon } = forecastData.weather[0];
             const { temp } = forecastData.main;
-
+    
             const dayEl = document.createElement("div");
             dayEl.classList.add("forecast-day");
-
+    
             dayEl.innerHTML = `
             <h3 style="color: white;">${day}</h3>
             <img src="https://openweathermap.org/img/wn/${icon}.png" class="icon" />
             <div class="temp" style="color: white;">${temp.toFixed(1)}°C</div>
         `;
-
+    
             forecastEl.appendChild(dayEl);
         });
     },
+    
 
     search: function () {
         this.fetchWeather(document.querySelector(".searchbar").value);
