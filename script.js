@@ -65,7 +65,42 @@ let weather = {
         document.querySelector(".humidity").innerText = "Ылғалдылық: " + humidity + "%";
         document.querySelector(".wind").innerText = "Жел жылдамдығы: " + speed + " км/сағ";
         document.querySelector(".weather").classList.remove("loading");
-        document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" + name + "')";
+
+        let backgroundImage = "";
+        switch (description) {
+            case "clear sky":
+                backgroundImage = "url('https://source.unsplash.com/1600x900/?sunny')";
+                break;
+            case "few clouds":
+            case "scattered clouds":
+            case "broken clouds":
+            case "overcast clouds":
+                backgroundImage = "url('https://source.unsplash.com/1600x900/?cloudy')";
+                break;
+            case "mist":
+            case "fog":
+                backgroundImage = "url('https://source.unsplash.com/1600x900/?fog')";
+                break;
+            case "light rain":
+            case "moderate rain":
+            case "heavy intensity rain":
+                backgroundImage = "url('https://source.unsplash.com/1600x900/?rain')";
+                break;
+            case "light snow":
+            case "moderate snow":
+            case "heavy snow":
+                backgroundImage = "url('https://source.unsplash.com/1600x900/?snow')";
+                break;
+            case "thunderstorm with rain":
+            case "thunderstorm with heavy rain":
+            case "thunderstorm with light rain":
+            case "thunderstorm":
+                backgroundImage = "url('https://source.unsplash.com/1600x900/?thunderstorm')";
+                break;
+            default:
+                backgroundImage = "url('https://source.unsplash.com/1600x900/?weather')";
+        }
+        document.body.style.backgroundImage = backgroundImage;
     },
 
     displayForecast: function (data) {
